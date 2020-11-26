@@ -62,3 +62,25 @@ await Cache.miss('name')
 
 let name2 = await Cache.get('name') // john
 ```
+### Filter With getConcat
+```typescript
+async function getData(key: string): Promise<Array<any>> {
+
+    switch (key) {
+        case 'spots':
+            return ['ledge gap', 'Bank']
+
+        case 'stairs':
+            return ['5 stair' , '12 stair']
+    }
+    return ['']
+}
+
+await Cache.bindMissHandler('spots', 15000, getData)
+await Cache.bindMissHandler('stairs', 15000, getData)
+
+setTimeout(async function() {
+    let allSpots = await Cache.getConcat(['spots', 'stairs'])
+    // ['ledge gap', 'Bank', '5 stair', '12 stair']
+}, 500)
+```
