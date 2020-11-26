@@ -16,8 +16,8 @@ class Cache {
 
         // check for miss
         if (firstData === undefined) {
-            let secondData = await this._cacheMissed(key)
-            return secondData
+            return await this._cacheMissed(key)
+                                             
         } else {
 
             return firstData
