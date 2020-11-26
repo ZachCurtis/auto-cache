@@ -3,9 +3,9 @@ import assert = require('assert')
 
 describe('cache', function () {
 
-    beforeEach(function () {
-        Cache.unbindMissHandler('name')
-        Cache.unbindMissHandler('job')
+    beforeEach(async function () {
+        await Cache.unbindMissHandler('name')
+        await Cache.unbindMissHandler('job')
     })
 
     it('should save and load a value', async function () {
@@ -13,8 +13,10 @@ describe('cache', function () {
             return 'sam'
         })
 
-        let name = await Cache.get('name')
-        assert.strictEqual(name, 'sam')
+        setTimeout(async () => {
+            let name = await Cache.get('name')
+            assert.strictEqual(name, 'sam')
+        })
     })
 
     it('should use a generic miss handler', async function () {
@@ -80,7 +82,7 @@ describe('cache', function () {
 
         setTimeout(async () => {
             assert.strictEqual(await Cache.get('name'), 'joe')
-        }, 200)
+        }, 2000)
     })
 
     it('should unbind miss handlers', async function () {
