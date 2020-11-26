@@ -9,7 +9,11 @@ describe('cache', function () {
     })
 
     it('should save and load a value', async function () {
+        await Cache.bindMissHandler('name', async function () {
+            return 'sam'
+        })
 
+        assert.strictEquals(await Cache.get('name'), 'sam')
     })
 
     it('should use a generic miss handler', async function () {
@@ -61,6 +65,19 @@ describe('cache', function () {
 
             assert.strictEqual((lastSaved - lastSavedCache) > 2000, true)
         }, 3000);
+    })
+
+    it('should allow for manual misses', async function() {
+        let name = 'sam'
+        await Cache.bindMissHandler('name', async function () {
+            return name
+        })
+
+        assert.strictEquals(await Cache.get('name'), 'sam')
+       
+        name = 'joe'
+
+        assert.strictEquals(await Cache.get('name'), 'joe')
     })
 
     it('should unbind miss handlers', async function () {
