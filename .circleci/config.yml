@@ -1,8 +1,8 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
+resource_class: small
 workflows:
   unit-tests:
-    resource_class: small
     jobs:
       - node/test
