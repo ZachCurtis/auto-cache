@@ -86,7 +86,7 @@ describe('cache', function () {
     })
 
     it('should unbind miss handlers', async function () {
-        await Cache.bindMissHandler('name', 2, async function (key: string) {
+        await Cache.bindMissHandler('name', 200, async function (key: string) {
             return 'sam'
         })
 
