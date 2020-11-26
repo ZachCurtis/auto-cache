@@ -2,12 +2,12 @@ import { IDictonary, IBound } from './defs'
 
 class Cache {
     private _cache: IDictonary<any>
-    private _missBinds: IDictonary<IBound>
+    private _missHandlers: IDictonary<IBound>
     private _timeouts: IDictonary<ReturnType<typeof setTimeout>>
 
     constructor() {
         this._cache = {}
-        this._missBinds = {}
+        this._missHandlers = {}
         this._timeouts = {}
     }
 
@@ -22,31 +22,31 @@ class Cache {
         return data
     }
 
-    public bindMiss(key: string, lifetime: number, missFunction: CallableFunction) {
+    public bindMissHandler(key: string, lifetime: number, missHandler: CallableFunction) {
 
-        let bound = this._missBinds[key]
+        let bound = this._missHandlers[key]
 
         if (bound !== undefined) {
             throw new Error("Cannot overwrite bound miss function for " + key);
 
         } else {
-            this._missBinds[key] = {
-                missFunction: missFunction,
+            this._missHandlers[key] = {
+                missFunction: missHandler,
                 lifetime: lifetime
             } as IBound
         }
     }
 
     public unbindMiss(key: string): void {
-        let bound = this._missBinds[key]
+        let bound = this._missHandlers[key]
 
         if (bound !== undefined) {
-            delete this._missBinds[key]
+            delete this._missHandlers[key]
         }
     }
 
     private async _cacheMissed(key: string): Promise<void> {
-        let boundMiss = this._missBinds[key]
+        let boundMiss = this._missHandlers[key]
 
         if (boundMiss === undefined) {
             throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')')
@@ -85,5 +85,7 @@ class Cache {
         }
     }
 }
+
+
 
 export default new Cache()

@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class AutoCache {
+class Cache {
     constructor() {
         this._cache = {};
-        this._missBinds = {};
+        this._missHandlers = {};
         this._timeouts = {};
     }
     get(key) {
@@ -25,29 +25,29 @@ class AutoCache {
             return data;
         });
     }
-    bindMiss(key, lifetime, missFunction) {
-        let bound = this._missBinds[key];
+    bindMissHandler(key, lifetime, missHandler) {
+        let bound = this._missHandlers[key];
         if (bound !== undefined) {
             throw new Error("Cannot overwrite bound miss function for " + key);
         }
         else {
-            this._missBinds[key] = {
-                missFunction: missFunction,
+            this._missHandlers[key] = {
+                missFunction: missHandler,
                 lifetime: lifetime
             };
         }
     }
     unbindMiss(key) {
-        let bound = this._missBinds[key];
+        let bound = this._missHandlers[key];
         if (bound !== undefined) {
-            delete this._missBinds[key];
+            delete this._missHandlers[key];
         }
     }
     _cacheMissed(key) {
         return __awaiter(this, void 0, void 0, function* () {
-            let boundMiss = this._missBinds[key];
+            let boundMiss = this._missHandlers[key];
             if (boundMiss === undefined) {
-                throw new Error('No data retrival function bound to ' + key + '. \n You must first set cache.bindMiss(' + key + ')');
+                throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')');
             }
             else {
                 if (this._timeouts[key] !== undefined) {
