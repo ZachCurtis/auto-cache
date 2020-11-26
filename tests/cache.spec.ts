@@ -93,7 +93,7 @@ describe('cache', function () {
         assert.strictEqual(await Cache.get('name'), 'sam')
 
         await Cache.unbindMissHandler('name')
-        await Cache.miss()
+        await Cache.miss('name')
 
         setTimeout(async () => {
             
