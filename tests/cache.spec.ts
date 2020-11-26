@@ -19,6 +19,26 @@ describe('cache', function () {
         })
     })
 
+    it('should get and concat an array of arrays', async function () {
+        async function getData(key: string): Promise<Array<any>> {
+
+            switch (key) {
+                case 'spots':
+                    return ['ledge gap', 'Bank']
+
+                case 'stairs':
+                    return ['5 stair' , '12 stair']
+            }
+            return ['']
+        }
+
+        await Cache.bindMissHandler('spots', 15000, getData)
+        await Cache.bindMissHandler('stairs', 15000, getData)
+
+        let allSpots = await Cache.getConcat(['spots', 'stairs'])
+        assert.strictDeepEqual(allSpots, [ledge gap', 'Bank', '5 stair', '12 stair'])
+    }
+
     it('should use a generic miss handler', async function () {
         async function getData(key: string): Promise<string> {
 
