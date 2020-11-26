@@ -1,3 +1,7 @@
+
+[![ZachCurtis](https://circleci.com/gh/ZachCurtis/managed-misses-cache.svg?style=svg)](https://github.com/ZachCurtis/managed-misses-cache)
+
+
 # managed-misses-cache
 Memory cache with bound miss functions to allow for cleaner data layer abstraction
 ## Installation
