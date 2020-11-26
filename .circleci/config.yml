@@ -4,4 +4,4 @@ jobs:
       - image: 'cimg/node:15.3.0'
     resource_class: small
     steps:
-      - run: node run test
+      - run: npm run test
