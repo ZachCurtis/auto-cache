@@ -29,7 +29,7 @@ class Cache {
     public async getConcat(keys: Array<string>): Promise<Array<any>> {
         let ret: Array<any> = []
         for (let i = 0; i < keys.length; i++) {
-            let data = await this.get(keys[i])
+            let data: any = await this.get(keys[i])
             if (typeof(data) !== 'array') {
                 throw new Error('Cache data must be an array to concat with getConcat')
             }
