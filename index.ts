@@ -1,0 +1,89 @@
+import { IDictonary, IBound } from './defs'
+
+class AutoCache {
+    private _cache: IDictonary<any>
+    private _missBinds: IDictonary<IBound>
+    private _timeouts: IDictonary<ReturnType<typeof setTimeout>>
+
+    constructor() {
+        this._cache = {}
+        this._missBinds = {}
+        this._timeouts = {}
+    }
+
+    public async get(key: string): Promise<any> {
+        let data = this._cache[key]
+
+        // check for miss
+        if (data === undefined) {
+            data = await this._cacheMissed(key)
+        }
+
+        return data
+    }
+
+    public bindMiss(key: string, lifetime: number, missFunction: CallableFunction) {
+
+        let bound = this._missBinds[key]
+
+        if (bound !== undefined) {
+            throw new Error("Cannot overwrite bound miss function for " + key);
+
+        } else {
+            this._missBinds[key] = {
+                missFunction: missFunction,
+                lifetime: lifetime
+            } as IBound
+        }
+    }
+
+    public unbindMiss(key: string): void {
+        let bound = this._missBinds[key]
+
+        if (bound !== undefined) {
+            delete this._missBinds[key]
+        }
+    }
+
+    private async _cacheMissed(key: string): Promise<void> {
+        let boundMiss = this._missBinds[key]
+
+        if (boundMiss === undefined) {
+            throw new Error('No data retrival function bound to ' + key + '. \n You must first set cache.bindMiss(' + key + ')')
+
+        } else {
+
+            if (this._timeouts[key] !== undefined) {
+                clearTimeout(this._timeouts[key])
+                delete this._timeouts[key]
+            }
+
+            let data = await boundMiss.missFunction(key)
+            this._setData(key, data)
+
+            // if this data expires bind deletion to timeout
+            if (boundMiss.lifetime > 0) {
+                this._timeouts[key] = setTimeout(() => {
+                    this._deleteData(key)
+
+                }, boundMiss.lifetime)
+            }
+        }
+    }
+
+    private _setData(key: string, data: any): void {
+
+        this._cache[key] = data
+    }
+
+    private async _deleteData(key: string): Promise<void> {
+        delete this._cache[key]
+
+        if (this._timeouts[key] !== undefined) {
+            clearTimeout(this._timeouts[key])
+            delete this._timeouts[key]
+        }
+    }
+}
+
+export default new Cache()
