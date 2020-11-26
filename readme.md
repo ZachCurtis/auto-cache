@@ -1,3 +1,4 @@
+[![ZachCurtis](https://github.com/ZachCurtis/managed-misses-cache/workflows/Testing/badge.svg)](https://github.com/ZachCurtis/managed-misses-cache)
 
 [![ZachCurtis](https://circleci.com/gh/ZachCurtis/managed-misses-cache.svg?style=svg)](https://github.com/ZachCurtis/managed-misses-cache)
 
