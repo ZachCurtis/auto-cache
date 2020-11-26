@@ -12,14 +12,16 @@ class Cache {
     }
 
     public async get(key: string): Promise<any> {
-        let data = this._cache[key]
+        let firstData = this._cache[key]
 
         // check for miss
-        if (data === undefined) {
-            data = await this._cacheMissed(key)
-        }
+        if (firstData === undefined) {
+            let secondData = await this._cacheMissed(key)
+            return secondData
+        } else {
 
-        return data
+            return firstData
+        }
     }
 
     public bindMissHandler(key: string, lifetime: number, missHandler: CallableFunction) {
@@ -37,7 +39,7 @@ class Cache {
         }
     }
 
-    public unbindMiss(key: string): void {
+    public unbindMissHandler(key: string): void {
         let bound = this._missHandlers[key]
 
         if (bound !== undefined) {
