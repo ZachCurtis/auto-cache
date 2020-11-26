@@ -7,7 +7,7 @@ Memory cache with bound miss functions to allow for cleaner data layer abstracti
 ```typescript
 import Cache from 'managed-misses-cache'
 
-Cache.bindMiss('name', 15000, async function(){
+Cache.bindMissHandler('name', 15000, async function(){
     return 'sam'
 })
 
@@ -33,8 +33,8 @@ async function getData(key: string): Promise<string> {
     return ret
 }
 
-Cache.bindMiss('name', 15000, getData)
-Cache.bindMiss('job', 15000, getData)
+Cache.bindMissHandler('name', 15000, getData)
+Cache.bindMissHandler('job', 15000, getData)
 
 let name = Cache.get('name')
 let job = Cache.get('job')
