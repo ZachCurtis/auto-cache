@@ -101,6 +101,6 @@ describe('cache', function () {
             })
     
             assert.strictEqual(await Cache.get('name'), 'john')
-        }, 150);
+        }, 1500);
     })
 })
