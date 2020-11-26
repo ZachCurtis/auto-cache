@@ -6,4 +6,4 @@ jobs:
     steps:
       - run:
         name: testing
-        command: npm run test
+        command: 'npm run test'
