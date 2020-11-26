@@ -33,8 +33,6 @@ async function getData(key: string): Promise<string> {
         case 'job':
             return 'driver'
     }
-
-    return ''
 }
 
 await Cache.bindMissHandler('name', 15000, getData)
