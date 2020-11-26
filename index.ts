@@ -29,7 +29,7 @@ class Cache {
     public async getConcat(keys: Array<string>): Promise<Array<any>> {
         let ret: Array<any> = []
         for (let i = 0; i < keys.length; i++) {
-            let data: any[] = await this.get(keys[i])
+            let data: any = await this.get(keys[i])
             ret = ret.concat(data)
         }
 
