@@ -91,12 +91,12 @@ describe('cache', function () {
         })
 
         await Cache.unbindMissHandler('name')
-        await Cache.miss('name')
-   
+        
         await Cache.bindMissHandler('name', 2000, async function (key: string) {
-                return 'john'
-            })
+            return 'john'
+        })
     
+        await Cache.miss('name')
 
         setTimeout(async () => {
             
