@@ -4,6 +4,6 @@ jobs:
       - image: 'cimg/node:15.3.0'
     resource_class: small
     steps:
-      - run: node --version
+      - run:
         name: tests
         command: npm run test
