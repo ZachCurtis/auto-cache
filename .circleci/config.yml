@@ -1,8 +1,7 @@
-version: 2.1
-orbs:
-  node: circleci/node@4.1.0
-workflows:
-  unit-tests:
-    jobs:
-      test:
-        - node/test
+jobs:
+  build:
+    docker:
+      - image: 'cimg/node:15.3.0'
+    resource_class: small
+    steps:
+      - run: node run test
