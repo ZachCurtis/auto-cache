@@ -3,7 +3,6 @@ orbs:
   node: circleci/node@3.0.0
 workflows:
   unit-tests:
+    resource_class: small
     jobs:
-      resource_class: small
       - node/test
-      
