@@ -5,6 +5,4 @@ workflows:
   unit-tests:
     jobs:
       test:
-      resource_class: small
-      steps:
         - node/test
