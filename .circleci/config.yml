@@ -1,5 +1,18 @@
 version: 2.1
 jobs:
+  install:
+    docker:
+        - image: 'cimg/node:15.3.0'
+      resource_class: small
+      steps:
+        - checkout
+        - run: npm install
+  build:
+    docker:
+        - image: 'cimg/node:15.3.0'
+      resource_class: small
+      steps:
+        - run: ./node_modules/.bin/tsc
   test:
     docker:
       - image: 'cimg/node:15.3.0'
@@ -10,4 +23,5 @@ jobs:
 workflows:
   test_module:
     jobs:
+    - build
     - test
