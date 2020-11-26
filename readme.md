@@ -11,12 +11,13 @@ Memory cache with bound miss functions to allow for cleaner data layer abstracti
 ## Example
 ```typescript
 import Cache from 'managed-misses-cache'
+async () => {
+    await Cache.bindMissHandler('name', 15000, async function(){
+        return 'sam'
+    })
 
-Cache.bindMissHandler('name', 15000, async function(){
-    return 'sam'
-})
-
-let name = Cache.get('name')
+    let name = await Cache.get('name')
+}
 ```
 
 ## Usage
@@ -45,4 +46,19 @@ setTimeout(async function(){
     console.log(name) // sam
     console.log(job) // driver
 }, 200)
+```
+
+### Manually Force Miss
+```typescript
+let _name = 'sam'
+await Cache.bindMissHandler('name', 15000, async function(){
+    return _name
+})
+
+let name1 = await Cache.get('name') // sam
+
+_name = 'john'
+await Cache.miss('name')
+
+let name2 = await Cache.get('name') // john
 ```
