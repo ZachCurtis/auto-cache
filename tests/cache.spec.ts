@@ -90,8 +90,6 @@ describe('cache', function () {
             return 'sam'
         })
 
-        assert.strictEqual(await Cache.get('name'), 'sam')
-
         await Cache.unbindMissHandler('name')
         await Cache.miss('name')
 
