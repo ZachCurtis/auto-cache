@@ -1,9 +1,9 @@
 {
   "name": "managed-misses-cache",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Memory cache with bound miss functions to allow for cleaner data layer abstraction. ",
-  "main": "index.ts",
-  "files": ["dist"],
+  "main": "dist/index.js",
+  "files": ["dist/*.js"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
