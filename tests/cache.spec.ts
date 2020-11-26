@@ -78,7 +78,7 @@ describe('cache', function () {
         name = 'joe'
         await Cache.miss('name')
 
-        setTimeout(function () {
+        setTimeout(async () => {
             assert.strictEqual(await Cache.get('name'), 'joe')
         }, 200)
     })
