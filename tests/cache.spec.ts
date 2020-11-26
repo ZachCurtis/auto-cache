@@ -9,7 +9,7 @@ describe('cache', function () {
     })
 
     it('should save and load a value', async function () {
-        await Cache.bindMissHandler('name', async function () {
+        await Cache.bindMissHandler('name', 15000, async function () {
             return 'sam'
         })
 
@@ -69,7 +69,7 @@ describe('cache', function () {
 
     it('should allow for manual misses', async function() {
         let name = 'sam'
-        await Cache.bindMissHandler('name', async function () {
+        await Cache.bindMissHandler('name', 15000, async function () {
             return name
         })
 
