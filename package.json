@@ -1,5 +1,5 @@
 {
-  "name": "auto-cache",
+  "name": "managed-misses-cache",
   "version": "0.0.1",
   "description": "Memory cache with bound miss functions to allow for cleaner data layer abstraction. ",
   "main": "index.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZachCurtis/auto-cache.git"
+    "url": "git+https://github.com/ZachCurtis/managed-misses-cache.git"
   },
   "keywords": [
     "cache",
@@ -20,9 +20,9 @@
   "author": "Zach Curtis",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ZachCurtis/auto-cache/issues"
+    "url": "https://github.com/ZachCurtis/managed-misses-cache/issues"
   },
-  "homepage": "https://github.com/ZachCurtis/auto-cache#readme",
+  "homepage": "https://github.com/ZachCurtis/managed-misses-cache#readme",
   "devDependencies": {
     "typescript": "^4.1.2"
   }

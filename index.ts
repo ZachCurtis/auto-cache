@@ -1,6 +1,6 @@
 import { IDictonary, IBound } from './defs'
 
-class AutoCache {
+class Cache {
     private _cache: IDictonary<any>
     private _missBinds: IDictonary<IBound>
     private _timeouts: IDictonary<ReturnType<typeof setTimeout>>
@@ -49,7 +49,7 @@ class AutoCache {
         let boundMiss = this._missBinds[key]
 
         if (boundMiss === undefined) {
-            throw new Error('No data retrival function bound to ' + key + '. \n You must first set cache.bindMiss(' + key + ')')
+            throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')')
 
         } else {
 
