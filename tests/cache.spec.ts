@@ -13,7 +13,8 @@ describe('cache', function () {
             return 'sam'
         })
 
-        assert.strictEqual(await Cache.get('name'), 'sam')
+        let name = await Cache.get('name')
+        assert.strictEqual(name, 'sam')
     })
 
     it('should use a generic miss handler', async function () {
@@ -26,8 +27,6 @@ describe('cache', function () {
                 case 'job':
                     return 'driver'
             }
-
-            return ''
         }
 
         await Cache.bindMissHandler('name', 15000, getData)
