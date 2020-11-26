@@ -47,7 +47,7 @@ class Cache {
         await this._cacheMissed(key)
     }
 
-    public unbindMissHandler(key: string): void {
+    public async unbindMissHandler(key: string): void {
         let bound = this._missHandlers[key]
 
         if (bound !== undefined) {
