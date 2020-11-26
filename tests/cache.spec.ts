@@ -92,13 +92,14 @@ describe('cache', function () {
 
         await Cache.unbindMissHandler('name')
         await Cache.miss('name')
-
-        setTimeout(async () => {
-            
-            await Cache.bindMissHandler('name', 2000, async function (key: string) {
+   
+        await Cache.bindMissHandler('name', 2000, async function (key: string) {
                 return 'john'
             })
     
+
+        setTimeout(async () => {
+            
             assert.strictEqual(await Cache.get('name'), 'john')
         }, 1500);
     })
