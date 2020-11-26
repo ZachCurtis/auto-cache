@@ -22,6 +22,8 @@ class Cache {
 
             return firstData
         }
+
+        return undefined
     }
 
 
