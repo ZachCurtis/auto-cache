@@ -6,6 +6,8 @@ describe('cache', function () {
     beforeEach(async function () {
         await Cache.unbindMissHandler('name')
         await Cache.unbindMissHandler('job')
+        await Cache.unbindMissHandler('spots')
+        await Cache.unbindMissHandler('stairs')
     })
 
     it('should save and load a value', async function () {
@@ -18,6 +20,50 @@ describe('cache', function () {
             assert.strictEqual(name, 'sam')
         })
     })
+
+    it('should get and concat an array of arrays', async function () {
+        async function getData(key: string): Promise<Array<any>> {
+
+            switch (key) {
+                case 'spots':
+                    return ['ledge gap', 'Bank']
+
+                case 'stairs':
+                    return ['5 stair' , '12 stair']
+            }
+            return ['']
+        }
+
+        await Cache.bindMissHandler('spots', 15000, getData)
+        await Cache.bindMissHandler('stairs', 15000, getData)
+
+        setTimeout(async function() {
+            let allSpots = await Cache.getConcat(['spots', 'stairs'])
+            assert.deepStrictEqual(allSpots, ['ledge gap', 'Bank', '5 stair', '12 stair'])
+        }, 500)
+    })
+    
+    it('shouldnt get and concat an array with a string', async function () {
+        async function getData(key: string): Promise<Array<any> | any> {
+
+            switch (key) {
+                case 'spots':
+                    return 'ledge gap'
+
+                case 'stairs':
+                    return ['5 stair' , '12 stair']
+            }
+            return ['']
+        }
+
+        await Cache.bindMissHandler('spots', 15000, getData)
+        await Cache.bindMissHandler('stairs', 15000, getData)
+
+        setTimeout(async function() {
+            assert.throws(await Cache.getConcat(['spots', 'stairs']))
+        }, 500)
+    })
+
 
     it('should use a generic miss handler', async function () {
         async function getData(key: string): Promise<string> {
