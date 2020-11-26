@@ -1,0 +1,25 @@
+{
+  "name": "auto-cache",
+  "version": "0.0.1",
+  "description": "Memory cache with bound miss functions to allow for cleaner data layer abstraction. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachCurtis/auto-cache.git"
+  },
+  "keywords": [
+    "cache",
+    "miss",
+    "memory",
+    "data"
+  ],
+  "author": "Zach Curtis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZachCurtis/auto-cache/issues"
+  },
+  "homepage": "https://github.com/ZachCurtis/auto-cache#readme"
+}
