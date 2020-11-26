@@ -1,6 +1,6 @@
 {
   "name": "managed-misses-cache",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Memory cache with bound miss functions to allow for cleaner data layer abstraction. ",
   "main": "index.ts",
   "scripts": {
