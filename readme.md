@@ -20,22 +20,26 @@ let name = Cache.get('name')
 The key missed is passed to the miss handler allowing you to better generalize their logic.
 ```typescript
 async function getData(key: string): Promise<string> {
-    let ret = ''
+
     switch (key) {
         case 'name':
-            ret = 'sam'
-            break;
+            return 'sam'
+
         case 'job':
-            ret = 'driver'
-            break
+            return 'driver'
     }
 
-    return ret
+    return ''
 }
 
-Cache.bindMissHandler('name', 15000, getData)
-Cache.bindMissHandler('job', 15000, getData)
+await Cache.bindMissHandler('name', 15000, getData)
+await Cache.bindMissHandler('job', 15000, getData)
 
-let name = Cache.get('name')
-let job = Cache.get('job')
+setTimeout(async function(){
+    let name = await Cache.get('name')
+    let job = await Cache.get('job')
+
+    assert.strictEqual(name, 'sam')
+    assert.strictEqual(job, 'driver')
+}, 200)
 ```
