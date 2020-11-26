@@ -5,5 +5,5 @@ jobs:
     resource_class: small
     steps:
       - run:
-        name: tests
+        name: testing
         command: npm run test
