@@ -17,12 +17,15 @@ class Cache {
     }
     get(key) {
         return __awaiter(this, void 0, void 0, function* () {
-            let data = this._cache[key];
+            let firstData = this._cache[key];
             // check for miss
-            if (data === undefined) {
-                data = yield this._cacheMissed(key);
+            if (firstData === undefined) {
+                let secondData = yield this._cacheMissed(key);
+                return secondData;
             }
-            return data;
+            else {
+                return firstData;
+            }
         });
     }
     bindMissHandler(key, lifetime, missHandler) {
@@ -37,7 +40,7 @@ class Cache {
             };
         }
     }
-    unbindMiss(key) {
+    unbindMissHandler(key) {
         let bound = this._missHandlers[key];
         if (bound !== undefined) {
             delete this._missHandlers[key];
