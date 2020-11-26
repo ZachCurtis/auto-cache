@@ -42,7 +42,7 @@ setTimeout(async function(){
     let name = await Cache.get('name')
     let job = await Cache.get('job')
 
-    assert.strictEqual(name, 'sam')
-    assert.strictEqual(job, 'driver')
+    console.log(name) // sam
+    console.log(job) // driver
 }, 200)
 ```
