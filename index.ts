@@ -26,7 +26,7 @@ class Cache {
         return undefined
     }
 
-    public async getConcat(keys: Array<string>): Promise<Array<any>> {
+    public async getConcat(keys: Array<string>): Promise<Array<any> | any> {
         let ret: Array<any> = []
         for (let i = 0; i < keys.length; i++) {
             let data: any = await this.get(keys[i])
