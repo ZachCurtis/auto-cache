@@ -5,7 +5,8 @@ jobs:
       - image: 'cimg/node:15.3.0'
     resource_class: small
     steps:
-      - test: npm run test
+      - run: npm run test
+
 workflows:
   test_module:
     jobs:
