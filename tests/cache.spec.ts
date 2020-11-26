@@ -42,7 +42,7 @@ describe('cache', function () {
     })
     
     it('shouldnt get and concat an array with a string', async function () {
-        async function getData(key: string): Promise<Array<any>> {
+        async function getData(key: string): Promise<Array<any> | any> {
 
             switch (key) {
                 case 'spots':
