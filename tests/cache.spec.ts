@@ -6,6 +6,8 @@ describe('cache', function () {
     beforeEach(async function () {
         await Cache.unbindMissHandler('name')
         await Cache.unbindMissHandler('job')
+        await Cache.unbindMissHandler('spots')
+        await Cache.unbindMissHandler('stairs')
     })
 
     it('should save and load a value', async function () {
