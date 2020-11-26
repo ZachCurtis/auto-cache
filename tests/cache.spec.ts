@@ -36,7 +36,7 @@ describe('cache', function () {
         await Cache.bindMissHandler('stairs', 15000, getData)
 
         let allSpots = await Cache.getConcat(['spots', 'stairs'])
-        assert.strictDeepEqual(allSpots, [ledge gap', 'Bank', '5 stair', '12 stair'])
+        assert.strictDeepEqual(allSpots, ['ledge gap', 'Bank', '5 stair', '12 stair'])
     }
 
     it('should use a generic miss handler', async function () {
