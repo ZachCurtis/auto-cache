@@ -29,7 +29,7 @@ describe('cache', function () {
         await Cache.bindMissHandler('name', 15000, getData)
         await Cache.bindMissHandler('job', 15000, getData)
 
-        setTimeout(async function(){
+        setTimeout(async function () {
             let name = await Cache.get('name')
             let job = await Cache.get('job')
 
@@ -61,5 +61,24 @@ describe('cache', function () {
 
             assert.strictEqual((lastSaved - lastSavedCache) > 2000, true)
         }, 3000);
+    })
+
+    it('should unbind miss handlers', async function () {
+        await Cache.bindMissHandler('name', 2, async function (key: string) {
+            return 'sam'
+        })
+
+        assert.strictEqual(await Cache.get('name'), 'sam')
+
+        await Cache.unbindMissHandler('name')
+
+        setTimeout(async () => {
+            
+            await Cache.bindMissHandler('name', 2000, async function (key: string) {
+                return 'john'
+            })
+    
+            assert.strictEqual(await Cache.get('name'), 'john')
+        }, 150);
     })
 })
