@@ -4,5 +4,4 @@ orbs:
 workflows:
   unit-tests:
     jobs:
-      test:
-        - node/test
+      - node/test
