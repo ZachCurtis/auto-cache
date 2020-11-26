@@ -1,9 +1,11 @@
 jobs:
-  build:
+  test:
     docker:
       - image: 'cimg/node:15.3.0'
     resource_class: small
     steps:
-      - run:
-        name: testing
-        command: 'npm run test'
+      - test: npm run test
+workflows:
+  test_module:
+    jobs:
+    - test
