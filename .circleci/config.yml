@@ -6,7 +6,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: sudo npm install -g npm@latest
+      - run: sudo npm install -g npm
       - run: npm install
       - run: ./node_modules/.bin/tsc
       - run: npm run test
