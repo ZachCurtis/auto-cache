@@ -13,7 +13,7 @@ describe('cache', function () {
             return 'sam'
         })
 
-        assert.strictEquals(await Cache.get('name'), 'sam')
+        assert.strictEqual(await Cache.get('name'), 'sam')
     })
 
     it('should use a generic miss handler', async function () {
@@ -73,11 +73,12 @@ describe('cache', function () {
             return name
         })
 
-        assert.strictEquals(await Cache.get('name'), 'sam')
+        assert.strictEqual(await Cache.get('name'), 'sam')
        
         name = 'joe'
+        Cache.miss('name')
 
-        assert.strictEquals(await Cache.get('name'), 'joe')
+        assert.strictEqual(await Cache.get('name'), 'joe')
     })
 
     it('should unbind miss handlers', async function () {
