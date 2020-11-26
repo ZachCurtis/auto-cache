@@ -48,9 +48,7 @@ class Cache {
     }
 
     public async unbindMissHandler(key: string): Promise<void> {
-        let bound = this._missHandlers[key]
-
-        if (bound !== undefined) {
+        if (this._missHandlers[key] !== undefined) {
             delete this._missHandlers[key]
         }
     }
