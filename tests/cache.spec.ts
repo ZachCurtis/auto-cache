@@ -76,7 +76,7 @@ describe('cache', function () {
         assert.strictEqual(await Cache.get('name'), 'sam')
        
         name = 'joe'
-        Cache.miss('name')
+        await Cache.miss('name')
 
         assert.strictEqual(await Cache.get('name'), 'joe')
     })
