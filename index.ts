@@ -1,9 +1,9 @@
-import { IDictonary, IBound } from './defs'
+import { IDictonary as IDictionary, IBound } from './defs'
 
 class Cache {
-    private _cache: IDictonary<any>
-    private _missHandlers: IDictonary<IBound>
-    private _timeouts: IDictonary<ReturnType<typeof setTimeout>>
+    private _cache: IDictionary<any>
+    private _missHandlers: IDictionary<IBound>
+    private _timeouts: IDictionary<ReturnType<typeof setTimeout>>
 
     constructor() {
         this._cache = {}
@@ -17,7 +17,7 @@ class Cache {
         // check for miss
         if (firstData === undefined) {
             return await this._cacheMissed(key)
-                                             
+
         } else {
 
             return firstData
@@ -51,7 +51,7 @@ class Cache {
         }
     }
 
-    public async miss (key: string): Promise<void> {
+    public async miss(key: string): Promise<void> {
         await this._cacheMissed(key)
     }
 
