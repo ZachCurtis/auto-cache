@@ -1,7 +1,6 @@
-export interface IDictonary<TValue> {
+export interface IDictionary<TValue> {
     [id: string]: TValue
 }
-
 export interface IBound {
     missFunction: CallableFunction
     lifetime: number

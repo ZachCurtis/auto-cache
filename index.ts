@@ -1,17 +1,19 @@
-import { IDictonary as IDictionary, IBound } from './defs'
+import { IDictionary as IDictionary, IBound } from './defs'
 
 class Cache {
-    private _cache: IDictionary<any>
+    private _cache: IDictionary<unknown>
     private _missHandlers: IDictionary<IBound>
+    private _anyMissHandlers: Array<IBound>
     private _timeouts: IDictionary<ReturnType<typeof setTimeout>>
 
     constructor() {
         this._cache = {}
         this._missHandlers = {}
+        this._anyMissHandlers = []
         this._timeouts = {}
     }
 
-    public async get(key: string): Promise<any> {
+    public async get(key: any): Promise<unknown> {
         let firstData = this._cache[key]
 
         // check for miss
@@ -22,11 +24,9 @@ class Cache {
 
             return firstData
         }
-
-        return undefined
     }
 
-    public async getConcat(keys: Array<string>): Promise<Array<any> | any> {
+    public async getConcat(keys: Array<any>): Promise<Array<any> | any> {
         let ret: Array<any> = []
         for (let i = 0; i < keys.length; i++) {
             let data: any = await this.get(keys[i])
@@ -36,32 +36,40 @@ class Cache {
         return ret
     }
 
-    public bindMissHandler(key: string, lifetime: number, missHandler: CallableFunction) {
+    public bindMissHandler(key: any | number, lifetime: number | CallableFunction, missHandler?: CallableFunction) {
 
-        let bound = this._missHandlers[key]
+        if (typeof key === 'string') {
 
-        if (bound !== undefined) {
-            throw new Error("Cannot overwrite bound miss function for " + key);
+            let bound = this._missHandlers[key]
 
+            if (bound !== undefined) {
+                throw new Error("Cannot overwrite bound miss function for " + key);
+
+            } else {
+                this._missHandlers[key] = {
+                    missFunction: missHandler,
+                    lifetime: lifetime
+                } as IBound
+            }
         } else {
-            this._missHandlers[key] = {
-                missFunction: missHandler,
-                lifetime: lifetime
-            } as IBound
+            this._anyMissHandlers.push({
+                missFunction: lifetime,
+                lifetime: key
+            } as IBound)
         }
     }
 
-    public async miss(key: string): Promise<void> {
+    public async miss(key: any): Promise<void> {
         await this._cacheMissed(key)
     }
 
-    public async unbindMissHandler(key: string): Promise<void> {
+    public async unbindMissHandler(key: any): Promise<void> {
         if (this._missHandlers[key] !== undefined) {
             delete this._missHandlers[key]
         }
     }
 
-    private async _cacheMissed(key: string): Promise<void> {
+    private async _cacheMissed(key: any): Promise<void> {
         let boundMiss = this._missHandlers[key]
 
         if (boundMiss === undefined) {
@@ -87,7 +95,7 @@ class Cache {
         }
     }
 
-    private _setData(key: string, data: any): void {
+    private _setData(key: any, data: any): void {
 
         this._cache[key] = data
     }
@@ -103,5 +111,53 @@ class Cache {
 }
 
 
+class SectionedCacheClass {
 
+    private _caches: IDictionary<Cache>
+
+    constructor() {
+        this._caches = {}
+    }
+
+    public async get(sectionName: string, key: any): Promise<unknown> {
+
+        //check if cache exists 
+        if (this._caches[sectionName] === undefined) {
+
+            //throw new error if not made yet 
+            throw new Error('No cache named ' + sectionName + 'exists. \n You must first set SectionedCache.bindMiss(' + sectionName + ', ' + key + ')')
+
+        } else {
+            return await this._caches[sectionName].get(key)
+        }
+    }
+
+
+    public bindMissHandler(sectionName: string, key: any | number, lifetime: number | CallableFunction , missHandler?: CallableFunction) {
+        let thisCache = this._caches[sectionName]
+
+        if (thisCache === undefined) {
+            this._caches[sectionName] = new Cache()
+            thisCache = this._caches[sectionName]
+        }
+
+        if (typeof key === 'string') {
+            thisCache.bindMissHandler(key, lifetime, missHandler)
+        } else if (typeof key === 'number') {
+            thisCache.bindMissHandler(key, lifetime)
+        }
+    }
+
+    public async miss(sectionName: string, key: any): Promise<void> {
+        const thisCache = this._caches[sectionName]
+
+        if (thisCache === undefined) {
+            throw new Error('Cannot force miss: Cache Section ' + sectionName + ' does not exist')
+        } else {
+            await thisCache.miss(key)
+        }
+    }
+}
+
+export const SectionedCache = new SectionedCacheClass()
 export default new Cache()

@@ -12,5 +12,3 @@ jobs:
 
 workflows:
   test_module:
-    jobs:
-    - build_test

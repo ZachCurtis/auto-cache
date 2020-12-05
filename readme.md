@@ -84,3 +84,12 @@ setTimeout(async function() {
     // ['ledge gap', 'Bank', '5 stair', '12 stair']
 }, 500)
 ```
+
+
+### Cache Sections
+```typescript
+import { SectionedCache } from 'managed-misses-cache'
+
+await SectionedCache.bindMissHandler('users', 'user-1329', 15000, () => {
+    
+})
