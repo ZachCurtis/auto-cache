@@ -1,14 +1,14 @@
-version: 2.1
-jobs:
-  build_test:
-    docker:
-        - image: 'cimg/node:15.3.0'
-    resource_class: small
-    steps:
-      - checkout
-      - run: npm install
-      - run: ./node_modules/.bin/tsc
-      - run: npm run test
+# version: 2.1
+# jobs:
+#   build_test:
+#     docker:
+#         - image: 'cimg/node:15.3.0'
+#     resource_class: small
+#     steps:
+#       - checkout
+#       - run: npm install
+#       - run: ./node_modules/.bin/tsc
+#       - run: npm run test
 
-workflows:
-  test_module:
+# workflows:
+#   test_module:
