@@ -1,10 +1,11 @@
 {
   "name": "managed-misses-cache",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Memory cache with bound miss functions to allow for cleaner data layer abstraction. ",
   "main": "dist/index.js",
   "files": [
-    "dist/*.js"
+    "dist/*.js",
+    "dist/*.ts"
   ],
   "scripts": {
     "test": "ts-mocha 'tests/**/*.ts'",
