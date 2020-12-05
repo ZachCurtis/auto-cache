@@ -72,9 +72,19 @@ class Cache {
     private async _cacheMissed(key: any): Promise<void> {
         let boundMiss = this._missHandlers[key]
 
-        if (boundMiss === undefined) {
+        if (boundMiss === undefined && this._anyMissHandlers.length < 1) {
             throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')')
 
+        } else if (this._anyMissHandlers.length === 1) {
+            let data = await this._anyMissHandlers[0].missFunction(key)
+            this._setData(key, data)
+
+            if (boundMiss.lifetime > 0) {
+                this._timeouts[key] = setTimeout(() => {
+                    this._deleteData(key)
+
+                }, boundMiss.lifetime)
+            }
         } else {
 
             if (this._timeouts[key] !== undefined) {
@@ -133,7 +143,7 @@ class SectionedCacheClass {
     }
 
 
-    public bindMissHandler(sectionName: string, key: any | number, lifetime: number | CallableFunction , missHandler?: CallableFunction) {
+    public bindMissHandler(sectionName: string, key: any | number, lifetime: number | CallableFunction, missHandler?: CallableFunction) {
         let thisCache = this._caches[sectionName]
 
         if (thisCache === undefined) {
