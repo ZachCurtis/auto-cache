@@ -74,8 +74,17 @@ class Cache {
     _cacheMissed(key) {
         return __awaiter(this, void 0, void 0, function* () {
             let boundMiss = this._missHandlers[key];
-            if (boundMiss === undefined) {
+            if (boundMiss === undefined && this._anyMissHandlers.length < 1) {
                 throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')');
+            }
+            else if (this._anyMissHandlers.length === 1) {
+                let data = yield this._anyMissHandlers[0].missFunction(key);
+                this._setData(key, data);
+                if (boundMiss.lifetime > 0) {
+                    this._timeouts[key] = setTimeout(() => {
+                        this._deleteData(key);
+                    }, boundMiss.lifetime);
+                }
             }
             else {
                 if (this._timeouts[key] !== undefined) {
