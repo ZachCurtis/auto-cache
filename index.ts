@@ -69,7 +69,7 @@ class Cache {
         }
     }
 
-    private async _cacheMissed(key: any): Promise<void> {
+    private async _cacheMissed(key: any): Promise<unknown> {
         let boundMiss = this._missHandlers[key]
 
         if (boundMiss === undefined && this._anyMissHandlers.length < 1) {
@@ -86,6 +86,8 @@ class Cache {
 
                 }, boundMiss.lifetime)
             }
+
+            return data
         } else {
 
             if (this._timeouts[key] !== undefined) {
@@ -103,6 +105,8 @@ class Cache {
 
                 }, boundMiss.lifetime)
             }
+
+            return data
         }
     }
 

@@ -86,6 +86,7 @@ class Cache {
                         this._deleteData(key);
                     }, boundMiss.lifetime);
                 }
+                return data;
             }
             else {
                 if (this._timeouts[key] !== undefined) {
@@ -100,6 +101,7 @@ class Cache {
                         this._deleteData(key);
                     }, boundMiss.lifetime);
                 }
+                return data;
             }
         });
     }
