@@ -78,7 +78,8 @@ class Cache {
                 throw new Error('No data retrival function bound to ' + key + '. \n You must first set Cache.bindMiss(' + key + ')');
             }
             else if (this._anyMissHandlers.length === 1) {
-                let data = yield this._anyMissHandlers[0].missFunction(key);
+                boundMiss = this._anyMissHandlers[0];
+                let data = yield boundMiss.missFunction(key);
                 this._setData(key, data);
                 if (boundMiss.lifetime > 0) {
                     this._timeouts[key] = setTimeout(() => {
